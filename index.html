@@ -16,13 +16,7 @@
                       Tip: you can use your own email as the sender while testing
 ============================================================ -->
 
-<script>
-  const BREVO_API_KEY = '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';  // ✏️ replace
-  const NOTIFY_EMAIL  = 'muhdzulkml144@gmail.com';       // ✏️ replace
-  const NOTIFY_NAME   = 'Poligami.my Admin';
-  const FROM_EMAIL    = 'noreply@poligami.my';  // ✏️ must be verified in Brevo
-  const FROM_NAME     = 'Poligami.my';
-</script>
+
 
 <style>
   :root {
@@ -351,51 +345,17 @@
   }
 
   async function sendEmail(data) {
-    const now = new Date().toLocaleString('ms-MY', { timeZone: 'Asia/Kuala_Lumpur' });
-    const waClean = data.whatsapp.replace(/[^0-9]/g, '');
+  const res = await fetch('/api/submit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
 
-    const res = await fetch('https://api.brevo.com/v3/smtp/email', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'api-key': BREVO_API_KEY },
-      body: JSON.stringify({
-        sender: { name: FROM_NAME, email: FROM_EMAIL },
-        to: [{ email: NOTIFY_EMAIL, name: NOTIFY_NAME }],
-        subject: `[Poligami.my] Pendaftaran Baru — ${data.nama}`,
-        htmlContent: `
-          <div style="font-family:Georgia,serif;max-width:520px;margin:0 auto;border:1px solid #e0e0e0;">
-            <div style="background:#111;padding:20px 28px;">
-              <p style="margin:0;font-family:Arial,sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#888;">Poligami.my</p>
-              <p style="margin:6px 0 0;font-size:22px;color:#f0f0f0;font-weight:normal;">Pendaftaran Baru Diterima</p>
-            </div>
-            <div style="padding:28px;background:#fff;">
-              <table style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif;font-size:14px;">
-                <tr style="border-bottom:1px solid #f0f0f0;">
-                  <td style="padding:12px 0;color:#888;width:130px;">Kategori</td>
-                  <td style="padding:12px 0;color:#111;font-weight:600;">${data.kategori}</td>
-                </tr>
-                <tr style="border-bottom:1px solid #f0f0f0;">
-                  <td style="padding:12px 0;color:#888;">Nama</td>
-                  <td style="padding:12px 0;color:#111;font-weight:600;">${data.nama}</td>
-                </tr>
-                <tr style="border-bottom:1px solid #f0f0f0;">
-                  <td style="padding:12px 0;color:#888;">WhatsApp</td>
-                  <td style="padding:12px 0;">
-                    <a href="https://wa.me/${waClean}" style="color:#111;font-weight:600;text-decoration:none;">${data.whatsapp}</a>
-                    &nbsp;<span style="font-size:11px;color:#aaa;">(klik untuk buka WhatsApp)</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding:12px 0;color:#888;">Negeri</td>
-                  <td style="padding:12px 0;color:#111;font-weight:600;">${data.negeri}</td>
-                </tr>
-              </table>
-              <div style="margin-top:20px;padding:12px 14px;background:#f8f8f8;border-left:3px solid #888;">
-                <p style="margin:0;font-family:Arial,sans-serif;font-size:11px;color:#999;">Diterima pada: ${now}</p>
-              </div>
-            </div>
-          </div>`
-      })
-    });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error || `HTTP ${res.status}`);
+  }
+}
 
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
