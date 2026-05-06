@@ -357,11 +357,6 @@
   }
 }
 
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err.message || `HTTP ${res.status}`);
-    }
-  }
 
   btn.addEventListener('click', async () => {
     // Validate all fields
