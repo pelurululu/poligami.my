@@ -8,47 +8,20 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <!-- ============================================================
-  SUPABASE SETUP
-  1. Go to https://supabase.com → your project → Settings → API
-  2. Copy your Project URL and anon/public key
-  3. Paste them below
+  BREVO SETUP — only 3 things to fill in:
 
-  Also run this SQL in your Supabase SQL Editor to create the table:
-
-  create table registrations (
-    id bigint generated always as identity primary key,
-    created_at timestamptz default now(),
-    kategori text,
-    nama text,
-    whatsapp text,
-    negeri text
-  );
-
-  -- Enable Row Level Security (important!)
-  alter table registrations enable row level security;
-
-  -- Allow anyone to insert (but not read)
-  create policy "Allow public insert"
-    on registrations for insert
-    with check (true);
-============================================================ -->
-
-<!-- ============================================================
-  BREVO (formerly Sendinblue) SETUP
-  1. Go to https://app.brevo.com → SMTP & API → API Keys
-  2. Create an API key and paste it below
-  3. Set YOUR_EMAIL below to the address you want to receive notifications
+  1. BREVO_API_KEY  → https://app.brevo.com → SMTP & API → API Keys → Create key
+  2. NOTIFY_EMAIL   → your email address (where you receive notifications)
+  3. FROM_EMAIL     → a sender verified in Brevo (Senders & IPs → Senders)
+                      Tip: you can use your own email as the sender while testing
 ============================================================ -->
 
 <script>
-  // ✏️ REPLACE THESE VALUES:
-  const SUPABASE_URL    = 'https://YOUR_PROJECT_ID.supabase.co';
-  const SUPABASE_ANON   = 'YOUR_SUPABASE_ANON_KEY';
-  const BREVO_API_KEY   = 'YOUR_BREVO_API_KEY';
-  const NOTIFY_EMAIL    = 'your@email.com';       // where notifications go
-  const NOTIFY_NAME     = 'Poligami.my Admin';    // your name
-  const FROM_EMAIL      = 'noreply@poligami.my';  // must be verified in Brevo
-  const FROM_NAME       = 'Poligami.my';
+  const BREVO_API_KEY = 'YOUR_BREVO_API_KEY';  // ✏️ replace
+  const NOTIFY_EMAIL  = 'your@email.com';       // ✏️ replace
+  const NOTIFY_NAME   = 'Poligami.my Admin';
+  const FROM_EMAIL    = 'noreply@poligami.my';  // ✏️ must be verified in Brevo
+  const FROM_NAME     = 'Poligami.my';
 </script>
 
 <style>
@@ -66,536 +39,125 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
+  body { font-family: 'Jost', sans-serif; background: var(--putih); color: var(--teks-gelap); overflow-x: hidden; }
 
-  body {
-    font-family: 'Jost', sans-serif;
-    background: var(--putih);
-    color: var(--teks-gelap);
-    overflow-x: hidden;
-  }
-
-  .ornament { display: block; margin: 0 auto; opacity: 0.35; }
-
-  /* NAV */
   nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     padding: 1.2rem 2.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(255,255,255,0.95);
-    backdrop-filter: blur(12px);
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(136,136,136,0.2);
   }
-
-  .nav-logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: var(--hijau);
-    letter-spacing: 0.02em;
-  }
-
+  .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 600; color: var(--hijau); letter-spacing: 0.02em; }
   .nav-logo span { color: var(--emas); }
-
-  nav a {
-    font-size: 0.78rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--teks-sederhana);
-    text-decoration: none;
-    transition: color 0.3s;
-  }
-
+  nav a { font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teks-sederhana); text-decoration: none; transition: color 0.3s; }
   nav a:hover { color: var(--emas); }
+  .nav-cta { background: var(--hijau); color: var(--emas) !important; padding: 0.6rem 1.4rem; border-radius: 2px; font-weight: 500; }
+  .nav-cta:hover { background: var(--hijau-muda) !important; }
 
-  .nav-cta {
-    background: var(--hijau);
-    color: var(--emas) !important;
-    padding: 0.6rem 1.4rem;
-    border-radius: 2px;
-    font-weight: 500;
-    transition: background 0.3s !important;
-  }
-
-  .nav-cta:hover { background: var(--hijau-muda) !important; color: var(--emas-muda) !important; }
-
-  /* HERO */
   .hero {
-    min-height: 100vh;
-    background: var(--hijau);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 8rem 2rem 5rem;
-    position: relative;
-    overflow: hidden;
+    min-height: 100vh; background: var(--hijau);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 8rem 2rem 5rem; position: relative; overflow: hidden;
   }
-
   .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(150,150,150,0.08) 0%, transparent 70%),
-      radial-gradient(ellipse 60% 40% at 80% 100%, rgba(150,150,150,0.05) 0%, transparent 60%);
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(150,150,150,0.08) 0%, transparent 70%),
+                radial-gradient(ellipse 60% 40% at 80% 100%, rgba(150,150,150,0.05) 0%, transparent 60%);
     pointer-events: none;
   }
-
-  .hero-bismillah {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.1rem;
-    color: var(--emas);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    opacity: 0.75;
-    margin-bottom: 2.5rem;
-    animation: fadeUp 1s ease 0.2s both;
-  }
-
-  .hero-tagline-kecil {
-    font-size: 0.72rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: rgba(201,168,76,0.6);
-    margin-bottom: 1.5rem;
-    animation: fadeUp 1s ease 0.3s both;
-  }
-
-  .hero h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.8rem, 8vw, 6.5rem);
-    font-weight: 500;
-    color: var(--krim);
-    line-height: 1.1;
-    margin-bottom: 0.5rem;
-    animation: fadeUp 1s ease 0.4s both;
-  }
-
+  .hero-bismillah { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--emas); letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.75; margin-bottom: 2.5rem; animation: fadeUp 1s ease 0.2s both; }
+  .hero-tagline-kecil { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(201,168,76,0.6); margin-bottom: 1.5rem; animation: fadeUp 1s ease 0.3s both; }
+  .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.8rem, 8vw, 6.5rem); font-weight: 500; color: var(--krim); line-height: 1.1; margin-bottom: 0.5rem; animation: fadeUp 1s ease 0.4s both; }
   .hero h1 em { font-style: italic; color: var(--emas); }
-
-  .hero-sub {
-    font-size: clamp(1rem, 2.5vw, 1.3rem);
-    color: rgba(245,240,232,0.65);
-    max-width: 560px;
-    line-height: 1.75;
-    margin: 1.8rem auto 3rem;
-    font-weight: 300;
-    animation: fadeUp 1s ease 0.55s both;
-  }
-
-  .hero-btns {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-    animation: fadeUp 1s ease 0.7s both;
-  }
-
-  .btn-utama {
-    background: var(--emas);
-    color: var(--hijau);
-    padding: 1rem 2.5rem;
-    font-family: 'Jost', sans-serif;
-    font-size: 0.8rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    font-weight: 600;
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-    transition: all 0.3s;
-    display: inline-block;
-  }
-
+  .hero-sub { font-size: clamp(1rem, 2.5vw, 1.3rem); color: rgba(245,240,232,0.65); max-width: 560px; line-height: 1.75; margin: 1.8rem auto 3rem; font-weight: 300; animation: fadeUp 1s ease 0.55s both; }
+  .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; animation: fadeUp 1s ease 0.7s both; }
+  .btn-utama { background: var(--emas); color: var(--hijau); padding: 1rem 2.5rem; font-family: 'Jost', sans-serif; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 600; border: none; cursor: pointer; text-decoration: none; transition: all 0.3s; display: inline-block; }
   .btn-utama:hover { background: var(--emas-muda); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.15); }
-
-  .btn-sekunder {
-    border: 1px solid rgba(201,168,76,0.4);
-    color: var(--emas-muda);
-    padding: 1rem 2.5rem;
-    font-family: 'Jost', sans-serif;
-    font-size: 0.8rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    font-weight: 400;
-    cursor: pointer;
-    text-decoration: none;
-    transition: all 0.3s;
-    display: inline-block;
-  }
-
+  .btn-sekunder { border: 1px solid rgba(201,168,76,0.4); color: var(--emas-muda); padding: 1rem 2.5rem; font-family: 'Jost', sans-serif; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 400; cursor: pointer; text-decoration: none; transition: all 0.3s; display: inline-block; }
   .btn-sekunder:hover { border-color: var(--emas); background: rgba(201,168,76,0.08); }
+  .hero-divider { width: 1px; height: 80px; background: linear-gradient(to bottom, transparent, var(--emas), transparent); margin: 4rem auto 0; animation: fadeUp 1s ease 0.9s both; }
 
-  .hero-divider {
-    width: 1px;
-    height: 80px;
-    background: linear-gradient(to bottom, transparent, var(--emas), transparent);
-    margin: 4rem auto 0;
-    animation: fadeUp 1s ease 0.9s both;
-  }
+  .stats-bar { background: var(--emas); padding: 1rem 2rem; display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; }
+  .stat-item { text-align: center; }
+  .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 600; color: var(--hijau); display: block; }
+  .stat-label { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(26,48,40,0.65); font-weight: 500; }
 
-  /* MASALAH */
   .masalah { background: var(--krim); padding: 6rem 2rem; text-align: center; }
-
-  .section-label {
-    font-size: 0.68rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--emas);
-    margin-bottom: 1.5rem;
-    font-weight: 500;
-  }
-
-  .masalah h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    font-weight: 500;
-    color: var(--hijau);
-    max-width: 700px;
-    margin: 0 auto 1.5rem;
-    line-height: 1.25;
-  }
-
-  .masalah p {
-    max-width: 580px;
-    margin: 0 auto;
-    font-size: 1.05rem;
-    line-height: 1.85;
-    color: var(--teks-sederhana);
-    font-weight: 300;
-  }
-
+  .section-label { font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--emas); margin-bottom: 1.5rem; font-weight: 500; }
+  .masalah h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 500; color: var(--hijau); max-width: 700px; margin: 0 auto 1.5rem; line-height: 1.25; }
+  .masalah p { max-width: 580px; margin: 0 auto; font-size: 1.05rem; line-height: 1.85; color: var(--teks-sederhana); font-weight: 300; }
   .masalah p strong { color: var(--hijau); font-weight: 500; }
 
-  /* AYAT */
   .ayat-section { background: var(--hijau); padding: 5rem 2rem; text-align: center; }
+  .ayat-arab { font-size: clamp(1.5rem, 4vw, 2.5rem); color: var(--emas-muda); font-family: 'Cormorant Garamond', serif; font-style: italic; line-height: 2; margin-bottom: 1.5rem; opacity: 0.9; }
+  .ayat-terjemah { font-size: 0.95rem; color: rgba(245,240,232,0.6); letter-spacing: 0.05em; max-width: 600px; margin: 0 auto 0.75rem; line-height: 1.8; }
+  .ayat-rujukan { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(201,168,76,0.5); }
 
-  .ayat-arab {
-    font-size: clamp(1.5rem, 4vw, 2.5rem);
-    color: var(--emas-muda);
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    line-height: 2;
-    margin-bottom: 1.5rem;
-    opacity: 0.9;
-  }
-
-  .ayat-terjemah {
-    font-size: 0.95rem;
-    color: rgba(245,240,232,0.6);
-    letter-spacing: 0.05em;
-    max-width: 600px;
-    margin: 0 auto 0.75rem;
-    line-height: 1.8;
-  }
-
-  .ayat-rujukan {
-    font-size: 0.72rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: rgba(201,168,76,0.5);
-  }
-
-  /* SIAPA */
   .siapa { background: var(--putih); padding: 6rem 2rem; }
   .siapa .container { max-width: 1100px; margin: 0 auto; }
-
   .siapa-header { text-align: center; margin-bottom: 4rem; }
-
-  .siapa-header h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2rem, 5vw, 3.2rem);
-    font-weight: 500;
-    color: var(--hijau);
-    margin-bottom: 0.75rem;
-  }
-
+  .siapa-header h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 500; color: var(--hijau); margin-bottom: 0.75rem; }
   .siapa-header p { color: var(--teks-sederhana); font-size: 1rem; font-weight: 300; }
-
   .segments-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1.5px; background: var(--krim-gelap); }
-
-  .segment-card {
-    background: var(--putih);
-    padding: 2rem 1.75rem;
-    transition: all 0.35s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .segment-card::before {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0;
-    width: 3px;
-    height: 0;
-    background: var(--emas);
-    transition: height 0.35s;
-  }
-
+  .segment-card { background: var(--putih); padding: 2rem 1.75rem; transition: all 0.35s; position: relative; overflow: hidden; }
+  .segment-card::before { content: ''; position: absolute; bottom: 0; left: 0; width: 3px; height: 0; background: var(--emas); transition: height 0.35s; }
   .segment-card:hover::before { height: 100%; }
   .segment-card:hover { background: #faf7f0; transform: translateX(4px); }
-
-  .seg-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2.5rem;
-    font-weight: 400;
-    color: rgba(201,168,76,0.2);
-    line-height: 1;
-    margin-bottom: 0.75rem;
-  }
-
-  .seg-title { font-size: 0.95rem; font-weight: 600; color: var(--hijau); margin-bottom: 0.5rem; letter-spacing: 0.02em; }
+  .seg-num { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 400; color: rgba(201,168,76,0.2); line-height: 1; margin-bottom: 0.75rem; }
+  .seg-title { font-size: 0.95rem; font-weight: 600; color: var(--hijau); margin-bottom: 0.5rem; }
   .seg-desc { font-size: 0.85rem; color: var(--teks-sederhana); line-height: 1.7; font-weight: 300; }
 
-  /* CARA */
   .cara { background: var(--krim); padding: 6rem 2rem; text-align: center; }
-
-  .cara h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2rem, 5vw, 3.2rem);
-    font-weight: 500;
-    color: var(--hijau);
-    margin-bottom: 4rem;
-  }
-
-  .steps { display: flex; gap: 0; max-width: 900px; margin: 0 auto; flex-wrap: wrap; justify-content: center; }
-
+  .cara h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 500; color: var(--hijau); margin-bottom: 4rem; }
+  .steps { display: flex; max-width: 900px; margin: 0 auto; flex-wrap: wrap; justify-content: center; }
   .step { flex: 1; min-width: 220px; padding: 2.5rem 2rem; position: relative; }
-
-  .step:not(:last-child)::after {
-    content: '→';
-    position: absolute;
-    right: -12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--emas);
-    font-size: 1.2rem;
-    opacity: 0.5;
-  }
-
-  .step-icon {
-    width: 56px;
-    height: 56px;
-    border: 1.5px solid var(--emas);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 1.25rem;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.4rem;
-    color: var(--emas);
-  }
-
-  .step h3 { font-size: 0.9rem; font-weight: 600; color: var(--hijau); margin-bottom: 0.5rem; letter-spacing: 0.03em; }
+  .step:not(:last-child)::after { content: '→'; position: absolute; right: -12px; top: 50%; transform: translateY(-50%); color: var(--emas); font-size: 1.2rem; opacity: 0.5; }
+  .step-icon { width: 56px; height: 56px; border: 1.5px solid var(--emas); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem; font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--emas); }
+  .step h3 { font-size: 0.9rem; font-weight: 600; color: var(--hijau); margin-bottom: 0.5rem; }
   .step p { font-size: 0.82rem; color: var(--teks-sederhana); line-height: 1.7; font-weight: 300; }
 
-  /* SYARIAH */
   .syariah { background: var(--hijau); padding: 6rem 2rem; }
   .syariah .container { max-width: 900px; margin: 0 auto; text-align: center; }
-
-  .syariah h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.8rem, 4vw, 3rem);
-    font-weight: 500;
-    color: var(--krim);
-    margin-bottom: 3.5rem;
-  }
-
+  .syariah h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 500; color: var(--krim); margin-bottom: 3.5rem; }
   .syariah h2 em { color: var(--emas); font-style: italic; }
-
   .jaminan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; text-align: left; }
-
   .jaminan-item { border-top: 1px solid rgba(136,136,136,0.25); padding-top: 1.25rem; }
   .jaminan-item .check { color: var(--emas); font-size: 1rem; margin-bottom: 0.5rem; }
   .jaminan-item h4 { font-size: 0.9rem; font-weight: 500; color: var(--krim); margin-bottom: 0.35rem; }
   .jaminan-item p { font-size: 0.8rem; color: rgba(245,240,232,0.5); line-height: 1.65; font-weight: 300; }
 
-  /* CTA */
   .cta-section { background: var(--krim); padding: 7rem 2rem; text-align: center; }
-
-  .cta-section h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.2rem, 6vw, 4.5rem);
-    font-weight: 500;
-    color: var(--hijau);
-    line-height: 1.2;
-    margin-bottom: 1.25rem;
-  }
-
+  .cta-section h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 6vw, 4.5rem); font-weight: 500; color: var(--hijau); line-height: 1.2; margin-bottom: 1.25rem; }
   .cta-section h2 em { color: var(--emas); font-style: italic; }
+  .cta-section > p { font-size: 1rem; color: var(--teks-sederhana); font-weight: 300; max-width: 500px; margin: 0 auto 2.5rem; line-height: 1.7; }
+  .coming-soon-badge { display: inline-block; border: 1px solid var(--emas); color: var(--emas); font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.5rem 1.25rem; margin-bottom: 2rem; font-weight: 500; }
 
-  .cta-section > p {
-    font-size: 1rem;
-    color: var(--teks-sederhana);
-    font-weight: 300;
-    max-width: 500px;
-    margin: 0 auto 2.5rem;
-    line-height: 1.7;
-  }
-
-  .coming-soon-badge {
-    display: inline-block;
-    border: 1px solid var(--emas);
-    color: var(--emas);
-    font-size: 0.72rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    padding: 0.5rem 1.25rem;
-    margin-bottom: 2rem;
-    font-weight: 500;
-  }
-
-  .form-header-note {
-    font-size: 0.7rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--emas);
-    font-weight: 500;
-    text-align: center;
-    margin-bottom: 1.75rem;
-    padding-bottom: 1.25rem;
-    border-bottom: 1px solid var(--krim-gelap);
-  }
-
-  /* FORM */
-  .form-wrapper {
-    max-width: 480px;
-    margin: 0 auto;
-    background: var(--putih);
-    border: 1px solid var(--krim-gelap);
-    padding: 2.5rem;
-  }
-
-  .form-label {
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--teks-sederhana);
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-  }
-
-  .form-select, .form-input {
-    width: 100%;
-    padding: 0.85rem 1rem;
-    border: 1px solid var(--krim-gelap);
-    background: var(--krim);
-    font-family: 'Jost', sans-serif;
-    font-size: 0.9rem;
-    color: var(--teks-gelap);
-    margin-bottom: 1.25rem;
-    appearance: none;
-    outline: none;
-    transition: border-color 0.3s;
-  }
-
+  .form-wrapper { max-width: 480px; margin: 0 auto; background: var(--putih); border: 1px solid var(--krim-gelap); padding: 2.5rem; }
+  .form-header-note { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--emas); font-weight: 500; text-align: center; margin-bottom: 1.75rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--krim-gelap); }
+  .form-label { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--teks-sederhana); display: block; margin-bottom: 0.5rem; font-weight: 500; }
+  .form-select, .form-input { width: 100%; padding: 0.85rem 1rem; border: 1px solid var(--krim-gelap); background: var(--krim); font-family: 'Jost', sans-serif; font-size: 0.9rem; color: var(--teks-gelap); margin-bottom: 1.25rem; appearance: none; outline: none; transition: border-color 0.3s; }
   .form-select:focus, .form-input:focus { border-color: var(--emas); }
-
   .form-select.error, .form-input.error { border-color: #cc4444; }
-
-  .form-submit {
-    width: 100%;
-    background: var(--hijau);
-    color: var(--emas);
-    padding: 1rem;
-    font-family: 'Jost', sans-serif;
-    font-size: 0.8rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    font-weight: 600;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s;
-    margin-top: 0.5rem;
-    position: relative;
-  }
-
+  .form-submit { width: 100%; background: var(--hijau); color: var(--emas); padding: 1rem; font-family: 'Jost', sans-serif; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 600; border: none; cursor: pointer; transition: all 0.3s; margin-top: 0.5rem; }
   .form-submit:hover:not(:disabled) { background: var(--hijau-muda); transform: translateY(-1px); }
-  .form-submit:disabled { cursor: not-allowed; opacity: 0.7; }
-
+  .form-submit:disabled { cursor: not-allowed; opacity: 0.75; }
   .form-note { font-size: 0.72rem; color: rgba(74,74,66,0.5); text-align: center; margin-top: 1rem; line-height: 1.6; }
 
-  /* Form state messages */
-  .form-msg {
-    display: none;
-    padding: 0.9rem 1rem;
-    font-size: 0.82rem;
-    margin-bottom: 1.25rem;
-    text-align: center;
-    letter-spacing: 0.03em;
-  }
+  .form-msg { display: none; padding: 0.9rem 1rem; font-size: 0.82rem; margin-bottom: 1.25rem; text-align: center; line-height: 1.5; }
+  .form-msg.success { display: block; background: #f0faf0; border: 1px solid #88bb88; color: #336633; }
+  .form-msg.error   { display: block; background: #faf0f0; border: 1px solid #bb8888; color: #663333; }
 
-  .form-msg.success {
-    display: block;
-    background: #f0faf0;
-    border: 1px solid #88bb88;
-    color: #336633;
-  }
-
-  .form-msg.error {
-    display: block;
-    background: #faf0f0;
-    border: 1px solid #bb8888;
-    color: #663333;
-  }
-
-  /* Loading spinner */
-  .spinner {
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    border: 2px solid rgba(136,136,136,0.3);
-    border-top-color: var(--emas);
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    vertical-align: middle;
-    margin-right: 8px;
-  }
-
+  .spinner { display: inline-block; width: 13px; height: 13px; border: 2px solid rgba(136,136,136,0.3); border-top-color: var(--emas); border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 8px; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* STATS */
-  .stats-bar {
-    background: var(--emas);
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: center;
-    gap: 3rem;
-    flex-wrap: wrap;
-  }
-
-  .stat-item { text-align: center; }
-
-  .stat-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.6rem;
-    font-weight: 600;
-    color: var(--hijau);
-    display: block;
-  }
-
-  .stat-label { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(26,48,40,0.65); font-weight: 500; }
-
-  /* ANIMATIONS */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-
-  /* FOOTER */
   footer { background: var(--hijau); padding: 2.5rem 2rem; text-align: center; }
   footer p { font-size: 0.75rem; color: rgba(245,240,232,0.35); letter-spacing: 0.08em; line-height: 1.8; }
   footer a { color: rgba(201,168,76,0.5); text-decoration: none; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
 
   @media (max-width: 640px) {
     nav { padding: 1rem 1.25rem; }
@@ -607,21 +169,16 @@
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <div class="nav-logo">Poligami<span>.my</span></div>
   <a href="#daftar" class="nav-cta">Pra-Daftar Sekarang</a>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
   <p class="hero-bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
   <p class="hero-tagline-kecil">Platform Poligami Pertama Malaysia</p>
   <h1>Buat Dengan <em>Betul.</em></h1>
-  <p class="hero-sub">
-    Bukan haram. Bukan sembunyi. Bukan skandal.<br>
-    Poligami yang benar — terbuka, terhormat, mengikut syariat.
-  </p>
+  <p class="hero-sub">Bukan haram. Bukan sembunyi. Bukan skandal.<br>Poligami yang benar — terbuka, terhormat, mengikut syariat.</p>
   <div class="hero-btns">
     <a href="#daftar" class="btn-utama">Daftar Percuma</a>
     <a href="#siapa" class="btn-sekunder">Kenali Platform Ini</a>
@@ -629,47 +186,25 @@
   <div class="hero-divider"></div>
 </section>
 
-<!-- STATS BAR -->
 <div class="stats-bar">
-  <div class="stat-item">
-    <span class="stat-num">100%</span>
-    <span class="stat-label">Shariah Compliant</span>
-  </div>
-  <div class="stat-item">
-    <span class="stat-num">11</span>
-    <span class="stat-label">Jenis Pengguna Kami Khidmati</span>
-  </div>
-  <div class="stat-item">
-    <span class="stat-num">Percuma</span>
-    <span class="stat-label">Untuk Mendaftar</span>
-  </div>
-  <div class="stat-item">
-    <span class="stat-num">Serius</span>
-    <span class="stat-label">Bukan Platform Suka-Suka</span>
-  </div>
+  <div class="stat-item"><span class="stat-num">100%</span><span class="stat-label">Shariah Compliant</span></div>
+  <div class="stat-item"><span class="stat-num">11</span><span class="stat-label">Jenis Pengguna Kami Khidmati</span></div>
+  <div class="stat-item"><span class="stat-num">Percuma</span><span class="stat-label">Untuk Mendaftar</span></div>
+  <div class="stat-item"><span class="stat-num">Serius</span><span class="stat-label">Bukan Platform Suka-Suka</span></div>
 </div>
 
-<!-- MASALAH -->
 <section class="masalah">
   <p class="section-label reveal">Realiti Yang Kita Perlu Akui</p>
   <h2 class="reveal">Ramai yang nak — tapi ramai yang buat dengan cara yang salah.</h2>
-  <p class="reveal">
-    Poligami adalah <strong>hak yang Allah benarkan.</strong> Tapi tanpa saluran yang betul,
-    ia bertukar menjadi skandal, penipuan, dan dosa. Platform ini wujud untuk
-    <strong>menutup jurang antara niat yang baik dengan cara yang benar.</strong>
-  </p>
+  <p class="reveal">Poligami adalah <strong>hak yang Allah benarkan.</strong> Tapi tanpa saluran yang betul, ia bertukar menjadi skandal, penipuan, dan dosa. Platform ini wujud untuk <strong>menutup jurang antara niat yang baik dengan cara yang benar.</strong></p>
 </section>
 
-<!-- AYAT -->
 <section class="ayat-section">
   <p class="ayat-arab reveal">"فَانكِحُوا مَا طَابَ لَكُم مِّنَ النِّسَاءِ"</p>
-  <p class="ayat-terjemah reveal">
-    "Maka kahwinilah perempuan-perempuan yang kamu sukai, dua, tiga atau empat."
-  </p>
+  <p class="ayat-terjemah reveal">"Maka kahwinilah perempuan-perempuan yang kamu sukai, dua, tiga atau empat."</p>
   <p class="ayat-rujukan reveal">Surah An-Nisa', Ayat 3</p>
 </section>
 
-<!-- SIAPA -->
 <section class="siapa" id="siapa">
   <div class="container">
     <div class="siapa-header reveal">
@@ -693,30 +228,16 @@
   </div>
 </section>
 
-<!-- CARA KERJA -->
 <section class="cara">
   <p class="section-label reveal">Mudah & Terhormat</p>
   <h2 class="reveal">Cara Ia Berfungsi</h2>
   <div class="steps">
-    <div class="step reveal">
-      <div class="step-icon">①</div>
-      <h3>Daftar & Isytihar Niat</h3>
-      <p>Lengkapkan profil anda dengan jujur. Nyatakan niat perkahwinan anda — ini bukan platform hiburan.</p>
-    </div>
-    <div class="step reveal">
-      <div class="step-icon">②</div>
-      <h3>Padanan Terurus</h3>
-      <p>Kami padankan berdasarkan kriteria, lokasi, dan kesediaan. Tiada swipe. Tiada algoritma kosong.</p>
-    </div>
-    <div class="step reveal">
-      <div class="step-icon">③</div>
-      <h3>Proses Dengan Betul</h3>
-      <p>Dari perkenalan hingga ke mahkamah — kami sediakan panduan prosedur Mahkamah Syariah langkah demi langkah.</p>
-    </div>
+    <div class="step reveal"><div class="step-icon">①</div><h3>Daftar & Isytihar Niat</h3><p>Lengkapkan profil anda dengan jujur. Nyatakan niat perkahwinan anda — ini bukan platform hiburan.</p></div>
+    <div class="step reveal"><div class="step-icon">②</div><h3>Padanan Terurus</h3><p>Kami padankan berdasarkan kriteria, lokasi, dan kesediaan. Tiada swipe. Tiada algoritma kosong.</p></div>
+    <div class="step reveal"><div class="step-icon">③</div><h3>Proses Dengan Betul</h3><p>Dari perkenalan hingga ke mahkamah — kami sediakan panduan prosedur Mahkamah Syariah langkah demi langkah.</p></div>
   </div>
 </section>
 
-<!-- JAMINAN SYARIAH -->
 <section class="syariah">
   <div class="container">
     <h2 class="reveal">Jaminan <em>Syariah</em> Kami</h2>
@@ -731,18 +252,14 @@
   </div>
 </section>
 
-<!-- CTA / FORM -->
 <section class="cta-section" id="daftar">
   <p class="section-label reveal">Akan Datang</p>
   <h2 class="reveal">Platform sedang <em>dibina.</em><br>Anda boleh daftar <em>sekarang.</em></h2>
   <p class="reveal">Poligami.my akan dilancarkan tidak lama lagi. Daftar hari ini — anda antara yang pertama kami maklumkan apabila platform ini sedia.</p>
-
   <div class="coming-soon-badge reveal">🕐 &nbsp;Pelancaran Tidak Lama Lagi</div>
 
   <div class="form-wrapper reveal">
     <div class="form-header-note">Pra-Pendaftaran — Percuma & Tanpa Komitmen</div>
-
-    <!-- Status message (shown after submit) -->
     <div id="form-msg" class="form-msg"></div>
 
     <label class="form-label">Saya mendaftar sebagai</label>
@@ -784,7 +301,6 @@
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <p>
     © 2025 Poligami.my — Hak Cipta Terpelihara<br>
@@ -793,78 +309,33 @@
   </p>
 </footer>
 
-<!-- ============================================================
-  SCRIPTS
-============================================================ -->
-
-<!-- Supabase JS SDK (v2) via CDN -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-
 <script>
-  // ─── Scroll Reveal ───────────────────────────────────────────
+  // Scroll reveal
   const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), (i % 4) * 80);
-        observer.unobserve(entry.target);
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), (i % 4) * 80);
+        io.unobserve(e.target);
       }
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-  reveals.forEach(el => observer.observe(el));
+  reveals.forEach(el => io.observe(el));
 
-  // ─── Supabase client ─────────────────────────────────────────
-  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
-
-  // ─── Brevo email helper ──────────────────────────────────────
-  async function sendBrevoEmail(data) {
-    const { kategori, nama, whatsapp, negeri } = data;
-    const now = new Date().toLocaleString('ms-MY', { timeZone: 'Asia/Kuala_Lumpur' });
-
-    const payload = {
-      sender: { name: FROM_NAME, email: FROM_EMAIL },
-      to: [{ email: NOTIFY_EMAIL, name: NOTIFY_NAME }],
-      subject: `[Poligami.my] Pendaftaran Baru — ${nama}`,
-      htmlContent: `
-        <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;padding:24px;border:1px solid #e0e0e0;">
-          <h2 style="color:#111;margin-bottom:4px;">Pendaftaran Baru Diterima</h2>
-          <p style="color:#888;font-size:12px;margin-top:0;">${now}</p>
-          <hr style="border:none;border-top:1px solid #e0e0e0;margin:16px 0;">
-          <table style="width:100%;border-collapse:collapse;font-size:14px;">
-            <tr><td style="padding:8px 0;color:#555;width:140px;">Kategori</td><td style="padding:8px 0;color:#111;font-weight:600;">${kategori}</td></tr>
-            <tr><td style="padding:8px 0;color:#555;">Nama</td><td style="padding:8px 0;color:#111;font-weight:600;">${nama}</td></tr>
-            <tr><td style="padding:8px 0;color:#555;">WhatsApp</td><td style="padding:8px 0;color:#111;font-weight:600;">${whatsapp}</td></tr>
-            <tr><td style="padding:8px 0;color:#555;">Negeri</td><td style="padding:8px 0;color:#111;font-weight:600;">${negeri}</td></tr>
-          </table>
-          <hr style="border:none;border-top:1px solid #e0e0e0;margin:16px 0;">
-          <p style="color:#aaa;font-size:11px;margin:0;">Dihantar oleh sistem automatik Poligami.my</p>
-        </div>
-      `
-    };
-
-    const res = await fetch('https://api.brevo.com/v3/smtp/email', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'api-key': BREVO_API_KEY
-      },
-      body: JSON.stringify(payload)
-    });
-
-    if (!res.ok) {
-      const err = await res.json();
-      console.warn('Brevo error:', err);
-      // Non-fatal — we don't want email failure to block the user confirmation
-    }
-  }
-
-  // ─── Form submission ─────────────────────────────────────────
+  // Form elements
   const btn       = document.getElementById('btn-submit');
   const msgEl     = document.getElementById('form-msg');
   const fKategori = document.getElementById('f-kategori');
   const fNama     = document.getElementById('f-nama');
   const fWa       = document.getElementById('f-wa');
   const fNegeri   = document.getElementById('f-negeri');
+  const fields    = [fKategori, fNama, fWa, fNegeri];
+
+  // Clear error highlight on edit
+  fields.forEach(el => {
+    el.addEventListener('change', () => el.classList.remove('error'));
+    el.addEventListener('input',  () => el.classList.remove('error'));
+  });
 
   function showMsg(type, text) {
     msgEl.className = `form-msg ${type}`;
@@ -875,71 +346,94 @@
   function setLoading(on) {
     btn.disabled = on;
     btn.innerHTML = on
-      ? '<span class="spinner"></span>Mendaftar...'
+      ? '<span class="spinner"></span>Menghantar...'
       : 'Daftar Pra-Pendaftaran — Percuma';
   }
 
-  function validateField(el) {
-    const ok = el.value.trim() !== '';
-    el.classList.toggle('error', !ok);
-    return ok;
+  async function sendEmail(data) {
+    const now = new Date().toLocaleString('ms-MY', { timeZone: 'Asia/Kuala_Lumpur' });
+    const waClean = data.whatsapp.replace(/[^0-9]/g, '');
+
+    const res = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'api-key': BREVO_API_KEY },
+      body: JSON.stringify({
+        sender: { name: FROM_NAME, email: FROM_EMAIL },
+        to: [{ email: NOTIFY_EMAIL, name: NOTIFY_NAME }],
+        subject: `[Poligami.my] Pendaftaran Baru — ${data.nama}`,
+        htmlContent: `
+          <div style="font-family:Georgia,serif;max-width:520px;margin:0 auto;border:1px solid #e0e0e0;">
+            <div style="background:#111;padding:20px 28px;">
+              <p style="margin:0;font-family:Arial,sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#888;">Poligami.my</p>
+              <p style="margin:6px 0 0;font-size:22px;color:#f0f0f0;font-weight:normal;">Pendaftaran Baru Diterima</p>
+            </div>
+            <div style="padding:28px;background:#fff;">
+              <table style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif;font-size:14px;">
+                <tr style="border-bottom:1px solid #f0f0f0;">
+                  <td style="padding:12px 0;color:#888;width:130px;">Kategori</td>
+                  <td style="padding:12px 0;color:#111;font-weight:600;">${data.kategori}</td>
+                </tr>
+                <tr style="border-bottom:1px solid #f0f0f0;">
+                  <td style="padding:12px 0;color:#888;">Nama</td>
+                  <td style="padding:12px 0;color:#111;font-weight:600;">${data.nama}</td>
+                </tr>
+                <tr style="border-bottom:1px solid #f0f0f0;">
+                  <td style="padding:12px 0;color:#888;">WhatsApp</td>
+                  <td style="padding:12px 0;">
+                    <a href="https://wa.me/${waClean}" style="color:#111;font-weight:600;text-decoration:none;">${data.whatsapp}</a>
+                    &nbsp;<span style="font-size:11px;color:#aaa;">(klik untuk buka WhatsApp)</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 0;color:#888;">Negeri</td>
+                  <td style="padding:12px 0;color:#111;font-weight:600;">${data.negeri}</td>
+                </tr>
+              </table>
+              <div style="margin-top:20px;padding:12px 14px;background:#f8f8f8;border-left:3px solid #888;">
+                <p style="margin:0;font-family:Arial,sans-serif;font-size:11px;color:#999;">Diterima pada: ${now}</p>
+              </div>
+            </div>
+          </div>`
+      })
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || `HTTP ${res.status}`);
+    }
   }
 
   btn.addEventListener('click', async () => {
-    // Validate
-    const v1 = validateField(fKategori);
-    const v2 = validateField(fNama);
-    const v3 = validateField(fWa);
-    const v4 = validateField(fNegeri);
-
-    if (!v1 || !v2 || !v3 || !v4) {
-      showMsg('error', 'Sila lengkapkan semua maklumat sebelum mendaftar.');
-      return;
-    }
-
-    const formData = {
-      kategori: fKategori.value,
-      nama:     fNama.value.trim(),
-      whatsapp: fWa.value.trim(),
-      negeri:   fNegeri.value
-    };
+    // Validate all fields
+    let valid = true;
+    fields.forEach(el => {
+      if (!el.value.trim()) { el.classList.add('error'); valid = false; }
+    });
+    if (!valid) { showMsg('error', 'Sila lengkapkan semua maklumat sebelum mendaftar.'); return; }
 
     setLoading(true);
-    msgEl.className = 'form-msg'; // hide previous msg
+    msgEl.className = 'form-msg';
 
     try {
-      // 1. Save to Supabase
-      const { error: dbError } = await supabase
-        .from('registrations')
-        .insert([formData]);
+      await sendEmail({
+        kategori: fKategori.value,
+        nama:     fNama.value.trim(),
+        whatsapp: fWa.value.trim(),
+        negeri:   fNegeri.value
+      });
 
-      if (dbError) throw new Error(dbError.message);
-
-      // 2. Send email via Brevo (non-blocking — we don't await failure)
-      sendBrevoEmail(formData);
-
-      // 3. Success UI
-      showMsg('success', '✓ Anda telah berjaya didaftarkan. Kami akan menghubungi anda melalui WhatsApp apabila platform sedia!');
-      btn.textContent = '✓ Berjaya Didaftarkan';
-      btn.style.background = '#336633';
+      showMsg('success', '✓ Terima kasih! Kami akan menghubungi anda melalui WhatsApp apabila Poligami.my sedia untuk digunakan.');
+      btn.innerHTML = '✓ Berjaya Didaftarkan';
+      btn.style.background = '#2d6a2d';
       btn.style.color = '#fff';
       btn.disabled = true;
-
-      // Clear form
-      [fKategori, fNegeri].forEach(el => el.value = '');
-      [fNama, fWa].forEach(el => el.value = '');
+      fields.forEach(el => { el.value = ''; el.classList.remove('error'); });
 
     } catch (err) {
-      console.error(err);
-      showMsg('error', 'Ralat berlaku. Sila cuba sebentar lagi atau hubungi kami secara terus.');
+      console.error('Brevo error:', err);
+      showMsg('error', 'Ralat berlaku semasa menghantar. Sila cuba sebentar lagi atau hubungi kami secara terus.');
       setLoading(false);
     }
-  });
-
-  // Remove error highlight on input
-  [fKategori, fNama, fWa, fNegeri].forEach(el => {
-    el.addEventListener('change', () => el.classList.remove('error'));
-    el.addEventListener('input',  () => el.classList.remove('error'));
   });
 </script>
 
