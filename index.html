@@ -986,75 +986,76 @@
 </footer>
 
 <script>
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => {
-          entry.target.classList.add('visible');
-        }, (i % 4) * 80);
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
-  reveals.forEach(el => observer.observe(el));
-
-  // Replace this URL with your deployed Google Apps Script Web App URL.
-  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbySyqx33_9SXQfsnfVtjE60ZasNr7bWWYkAw29RldKOuol94MI9RKexVdLXeFWZhXfM/exec';
-
-  const registrationForm = document.getElementById('registration-form');
-  const formStatus = document.getElementById('form-status');
-  const submitButton = registrationForm.querySelector('.form-submit');
-
-  function showFormStatus(message, type) {
-    formStatus.textContent = message;
-    formStatus.className = `form-status ${type}`;
-  }
-
-  registrationForm.addEventListener('submit', async function(event) {
-    event.preventDefault();
-
-    if (GOOGLE_SCRIPT_URL === 'PASTE_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
-      showFormStatus('Borang belum disambungkan ke Google Sheet. Sila masukkan Web App URL Google Apps Script dahulu.', 'error');
-      return;
-    }
-
-    submitButton.disabled = true;
-    submitButton.textContent = 'Sedang dihantar...';
-    showFormStatus('Sedang menghantar pendaftaran anda...', 'success');
-
-    const formData = new FormData(registrationForm);
-    const payload = {
-      kategori: formData.get('kategori'),
-      nama: formData.get('nama'),
-      email: formData.get('email'),
-      telefon: formData.get('telefon'),
-      negeri: formData.get('negeri')
-    };
-
-    try {
-      await fetch(GOOGLE_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify(payload)
-      });
-
-      registrationForm.reset();
-      showFormStatus('Registration received. Terima kasih, maklumat anda telah dihantar.', 'success');
-
-      // Untuk redirect ke WhatsApp selepas submit, buang // pada dua baris bawah.
-      // const whatsappUrl = 'https://wa.me/60123456789?text=Saya%20sudah%20daftar%20pra-pendaftaran%20Poligami.my';
-      // window.location.href = whatsappUrl;
-    } catch (error) {
-      showFormStatus('Maaf, pendaftaran tidak berjaya dihantar. Sila cuba sekali lagi.', 'error');
-    } finally {
-      submitButton.disabled = false;
-      submitButton.textContent = 'Daftar Pra-Pendaftaran — Percuma';
+ // Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => {
+        entry.target.classList.add('visible');
+      }, (i % 4) * 80);
+      observer.unobserve(entry.target);
     }
   });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+reveals.forEach(el => observer.observe(el));
+
+// Form submission
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbySyqx33_9SXQfsnfVtjE60ZasNr7bWWYkAw29RldKOuol94MI9RKexVdLXeFWZhXfM/exec';
+
+const registrationForm = document.getElementById('registration-form');
+const formStatus = document.getElementById('form-status');
+const submitButton = registrationForm.querySelector('.form-submit');
+
+function showFormStatus(message, type) {
+  formStatus.textContent = message;
+  formStatus.className = 'form-status ' + type;
+}
+
+registrationForm.addEventListener('submit', async function(event) {
+  event.preventDefault();
+
+  submitButton.disabled = true;
+  submitButton.textContent = 'Sedang dihantar...';
+  showFormStatus('Sedang menghantar pendaftaran anda...', 'success');
+
+  const formData = new FormData(registrationForm);
+  const payload = {
+    kategori: formData.get('kategori'),
+    nama: formData.get('nama'),
+    email: formData.get('email'),
+    telefon: formData.get('telefon'),
+    negeri: formData.get('negeri')
+  };
+
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
+
+    await fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload),
+      signal: controller.signal
+    });
+
+    clearTimeout(timeout);
+    registrationForm.reset();
+    showFormStatus('✅ Terima kasih! Anda akan dihubungi melalui WhatsApp apabila platform sedia.', 'success');
+
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      showFormStatus('Sambungan terlalu lambat. Sila cuba semula.', 'error');
+    } else {
+      showFormStatus('Maaf, pendaftaran tidak berjaya. Sila cuba semula.', 'error');
+    }
+  } finally {
+    submitButton.disabled = false;
+    submitButton.textContent = 'Daftar Pra-Pendaftaran — Percuma';
+  }
+});
 </script>
 
 </body>
