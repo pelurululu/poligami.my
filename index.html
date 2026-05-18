@@ -4,26 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Poligami.my — Buat Dengan Betul</title>
-<link rel="icon" type="image/png" href="images/logo.png">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-<!-- ============================================================
-  BREVO SETUP — only 3 things to fill in:
-
-  1. BREVO_API_KEY  → https://app.brevo.com → SMTP & API → API Keys → Create key
-  2. NOTIFY_EMAIL   → your email address (where you receive notifications)
-  3. FROM_EMAIL     → a sender verified in Brevo (Senders & IPs → Senders)
-                      Tip: you can use your own email as the sender while testing
-============================================================ -->
-<script>
-  const BREVO_API_KEY = 'your_actual_brevo_key';
-  const NOTIFY_EMAIL  = 'muhdzulkml144@gmail.com';
-  const NOTIFY_NAME   = 'Poligami.my Admin';
-  const FROM_EMAIL    = 'noreply@poligami.my';
-  const FROM_NAME     = 'Poligami.my';
-</script>
-
-
 <style>
   :root {
     --hijau: #111111;
@@ -38,127 +19,701 @@
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body { font-family: 'Jost', sans-serif; background: var(--putih); color: var(--teks-gelap); overflow-x: hidden; }
 
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--putih);
+    color: var(--teks-gelap);
+    overflow-x: hidden;
+  }
+
+  /* ORNAMENT SVG */
+  .ornament {
+    display: block;
+    margin: 0 auto;
+    opacity: 0.35;
+  }
+
+  /* NAV */
   nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
     padding: 1.2rem 2.5rem;
-    display: flex; justify-content: space-between; align-items: center;
-    background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(136,136,136,0.2);
   }
-  .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 600; color: var(--hijau); letter-spacing: 0.02em; }
-  .nav-logo span { color: var(--emas); }
-  nav a { font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teks-sederhana); text-decoration: none; transition: color 0.3s; }
-  nav a:hover { color: var(--emas); }
-  .nav-cta { background: var(--hijau); color: var(--emas) !important; padding: 0.6rem 1.4rem; border-radius: 2px; font-weight: 500; }
-  .nav-cta:hover { background: var(--hijau-muda) !important; }
 
-  .hero {
-    min-height: 100vh; background: var(--hijau);
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    text-align: center; padding: 8rem 2rem 5rem; position: relative; overflow: hidden;
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--hijau);
+    letter-spacing: 0.02em;
   }
+
+  .nav-logo span { color: var(--emas); }
+
+  nav a {
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--teks-sederhana);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  nav a:hover { color: var(--emas); }
+
+  .nav-cta {
+    background: var(--hijau);
+    color: var(--emas) !important;
+    padding: 0.6rem 1.4rem;
+    border-radius: 2px;
+    font-weight: 500;
+    transition: background 0.3s !important;
+  }
+
+  .nav-cta:hover { background: var(--hijau-muda) !important; color: var(--emas-muda) !important; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    background: var(--hijau);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8rem 2rem 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
   .hero::before {
-    content: ''; position: absolute; inset: 0;
-    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(150,150,150,0.08) 0%, transparent 70%),
-                radial-gradient(ellipse 60% 40% at 80% 100%, rgba(150,150,150,0.05) 0%, transparent 60%);
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(150,150,150,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 40% at 80% 100%, rgba(150,150,150,0.05) 0%, transparent 60%);
     pointer-events: none;
   }
-  .hero-bismillah { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--emas); letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.75; margin-bottom: 2.5rem; animation: fadeUp 1s ease 0.2s both; }
-  .hero-tagline-kecil { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(201,168,76,0.6); margin-bottom: 1.5rem; animation: fadeUp 1s ease 0.3s both; }
-  .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.8rem, 8vw, 6.5rem); font-weight: 500; color: var(--krim); line-height: 1.1; margin-bottom: 0.5rem; animation: fadeUp 1s ease 0.4s both; }
-  .hero h1 em { font-style: italic; color: var(--emas); }
-  .hero-sub { font-size: clamp(1rem, 2.5vw, 1.3rem); color: rgba(245,240,232,0.65); max-width: 560px; line-height: 1.75; margin: 1.8rem auto 3rem; font-weight: 300; animation: fadeUp 1s ease 0.55s both; }
-  .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; animation: fadeUp 1s ease 0.7s both; }
-  .btn-utama { background: var(--emas); color: var(--hijau); padding: 1rem 2.5rem; font-family: 'Jost', sans-serif; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 600; border: none; cursor: pointer; text-decoration: none; transition: all 0.3s; display: inline-block; }
-  .btn-utama:hover { background: var(--emas-muda); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.15); }
-  .btn-sekunder { border: 1px solid rgba(201,168,76,0.4); color: var(--emas-muda); padding: 1rem 2.5rem; font-family: 'Jost', sans-serif; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 400; cursor: pointer; text-decoration: none; transition: all 0.3s; display: inline-block; }
-  .btn-sekunder:hover { border-color: var(--emas); background: rgba(201,168,76,0.08); }
-  .hero-divider { width: 1px; height: 80px; background: linear-gradient(to bottom, transparent, var(--emas), transparent); margin: 4rem auto 0; animation: fadeUp 1s ease 0.9s both; }
 
-  .stats-bar { background: var(--emas); padding: 1rem 2rem; display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; }
-  .stat-item { text-align: center; }
-  .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 600; color: var(--hijau); display: block; }
-  .stat-label { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(26,48,40,0.65); font-weight: 500; }
+  .hero-bismillah {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    color: var(--emas);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.75;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 1s ease 0.2s both;
+  }
 
-  .masalah { background: var(--krim); padding: 6rem 2rem; text-align: center; }
-  .section-label { font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--emas); margin-bottom: 1.5rem; font-weight: 500; }
-  .masalah h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 500; color: var(--hijau); max-width: 700px; margin: 0 auto 1.5rem; line-height: 1.25; }
-  .masalah p { max-width: 580px; margin: 0 auto; font-size: 1.05rem; line-height: 1.85; color: var(--teks-sederhana); font-weight: 300; }
-  .masalah p strong { color: var(--hijau); font-weight: 500; }
+  .hero-tagline-kecil {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(201,168,76,0.6);
+    margin-bottom: 1.5rem;
+    animation: fadeUp 1s ease 0.3s both;
+  }
 
-  .ayat-section { background: var(--hijau); padding: 5rem 2rem; text-align: center; }
-  .ayat-arab { font-size: clamp(1.5rem, 4vw, 2.5rem); color: var(--emas-muda); font-family: 'Cormorant Garamond', serif; font-style: italic; line-height: 2; margin-bottom: 1.5rem; opacity: 0.9; }
-  .ayat-terjemah { font-size: 0.95rem; color: rgba(245,240,232,0.6); letter-spacing: 0.05em; max-width: 600px; margin: 0 auto 0.75rem; line-height: 1.8; }
-  .ayat-rujukan { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(201,168,76,0.5); }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.8rem, 8vw, 6.5rem);
+    font-weight: 500;
+    color: var(--krim);
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+    animation: fadeUp 1s ease 0.4s both;
+  }
 
-  .siapa { background: var(--putih); padding: 6rem 2rem; }
-  .siapa .container { max-width: 1100px; margin: 0 auto; }
-  .siapa-header { text-align: center; margin-bottom: 4rem; }
-  .siapa-header h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 500; color: var(--hijau); margin-bottom: 0.75rem; }
-  .siapa-header p { color: var(--teks-sederhana); font-size: 1rem; font-weight: 300; }
-  .segments-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1.5px; background: var(--krim-gelap); }
-  .segment-card { background: var(--putih); padding: 2rem 1.75rem; transition: all 0.35s; position: relative; overflow: hidden; }
-  .segment-card::before { content: ''; position: absolute; bottom: 0; left: 0; width: 3px; height: 0; background: var(--emas); transition: height 0.35s; }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--emas);
+  }
+
+  .hero-sub {
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    color: rgba(245,240,232,0.65);
+    max-width: 560px;
+    line-height: 1.75;
+    margin: 1.8rem auto 3rem;
+    font-weight: 300;
+    animation: fadeUp 1s ease 0.55s both;
+  }
+
+  .hero-btns {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeUp 1s ease 0.7s both;
+  }
+
+  .btn-utama {
+    background: var(--putih);
+    color: var(--hijau);
+    padding: 0.7rem 2.5rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s;
+    display: inline-block;
+    line-height: 1.2;
+  }
+
+  .btn-utama .btn-caption {
+    display: block;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(17,17,17,0.7);
+    margin-bottom: 0.2rem;
+    font-weight: 700;
+  }
+
+  .btn-utama:hover {
+    background: var(--emas-muda);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  }
+
+  .btn-sekunder {
+    border: 1px solid rgba(201,168,76,0.4);
+    color: var(--emas-muda);
+    padding: 1rem 2.5rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 400;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s;
+    display: inline-block;
+  }
+
+  .btn-sekunder:hover {
+    border-color: var(--emas);
+    background: rgba(201,168,76,0.08);
+  }
+
+  .hero-divider {
+    width: 1px;
+    height: 80px;
+    background: linear-gradient(to bottom, transparent, var(--emas), transparent);
+    margin: 4rem auto 0;
+    animation: fadeUp 1s ease 0.9s both;
+  }
+
+  /* MASALAH */
+  .masalah {
+    background: var(--krim);
+    padding: 6rem 2rem;
+    text-align: center;
+  }
+
+  .section-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--emas);
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+  }
+
+  .masalah h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 500;
+    color: var(--hijau);
+    max-width: 700px;
+    margin: 0 auto 1.5rem;
+    line-height: 1.25;
+  }
+
+  .masalah p {
+    max-width: 580px;
+    margin: 0 auto;
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: var(--teks-sederhana);
+    font-weight: 300;
+  }
+
+  .masalah p strong {
+    color: var(--hijau);
+    font-weight: 500;
+  }
+
+  /* QUOTE AYAT */
+  .ayat-section {
+    background: var(--hijau);
+    padding: 5rem 2rem;
+    text-align: center;
+  }
+
+  .ayat-arab {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    color: var(--emas-muda);
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    line-height: 2;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+  }
+
+  .ayat-terjemah {
+    font-size: 0.95rem;
+    color: rgba(245,240,232,0.6);
+    letter-spacing: 0.05em;
+    max-width: 600px;
+    margin: 0 auto 0.75rem;
+    line-height: 1.8;
+  }
+
+  .ayat-rujukan {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(201,168,76,0.5);
+  }
+
+  /* SIAPA ANDA */
+  .siapa {
+    background: var(--putih);
+    padding: 6rem 2rem;
+  }
+
+  .siapa .container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .siapa-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .siapa-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 500;
+    color: var(--hijau);
+    margin-bottom: 0.75rem;
+  }
+
+  .siapa-header p {
+    color: var(--teks-sederhana);
+    font-size: 1rem;
+    font-weight: 300;
+  }
+
+  .segments-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 1.5px;
+    background: var(--krim-gelap);
+  }
+
+  .segment-card {
+    background: var(--putih);
+    padding: 2rem 1.75rem;
+    transition: all 0.35s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .segment-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 3px;
+    height: 0;
+    background: var(--emas);
+    transition: height 0.35s;
+  }
+
   .segment-card:hover::before { height: 100%; }
-  .segment-card:hover { background: #faf7f0; transform: translateX(4px); }
-  .seg-num { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 400; color: rgba(201,168,76,0.2); line-height: 1; margin-bottom: 0.75rem; }
-  .seg-title { font-size: 0.95rem; font-weight: 600; color: var(--hijau); margin-bottom: 0.5rem; }
-  .seg-desc { font-size: 0.85rem; color: var(--teks-sederhana); line-height: 1.7; font-weight: 300; }
 
-  .cara { background: var(--krim); padding: 6rem 2rem; text-align: center; }
-  .cara h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 500; color: var(--hijau); margin-bottom: 4rem; }
-  .steps { display: flex; max-width: 900px; margin: 0 auto; flex-wrap: wrap; justify-content: center; }
-  .step { flex: 1; min-width: 220px; padding: 2.5rem 2rem; position: relative; }
-  .step:not(:last-child)::after { content: '→'; position: absolute; right: -12px; top: 50%; transform: translateY(-50%); color: var(--emas); font-size: 1.2rem; opacity: 0.5; }
-  .step-icon { width: 56px; height: 56px; border: 1.5px solid var(--emas); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem; font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--emas); }
-  .step h3 { font-size: 0.9rem; font-weight: 600; color: var(--hijau); margin-bottom: 0.5rem; }
-  .step p { font-size: 0.82rem; color: var(--teks-sederhana); line-height: 1.7; font-weight: 300; }
+  .segment-card:hover {
+    background: #faf7f0;
+    transform: translateX(4px);
+  }
 
-  .syariah { background: var(--hijau); padding: 6rem 2rem; }
-  .syariah .container { max-width: 900px; margin: 0 auto; text-align: center; }
-  .syariah h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 500; color: var(--krim); margin-bottom: 3.5rem; }
+  .seg-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    font-weight: 400;
+    color: rgba(201,168,76,0.2);
+    line-height: 1;
+    margin-bottom: 0.75rem;
+  }
+
+  .seg-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--hijau);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.02em;
+  }
+
+  .seg-desc {
+    font-size: 0.85rem;
+    color: var(--teks-sederhana);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* CARA KERJA */
+  .cara {
+    background: var(--krim);
+    padding: 6rem 2rem;
+    text-align: center;
+  }
+
+  .cara h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 500;
+    color: var(--hijau);
+    margin-bottom: 4rem;
+  }
+
+  .steps {
+    display: flex;
+    gap: 0;
+    max-width: 900px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .step {
+    flex: 1;
+    min-width: 220px;
+    padding: 2.5rem 2rem;
+    position: relative;
+  }
+
+  .step:not(:last-child)::after {
+    content: '→';
+    position: absolute;
+    right: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--emas);
+    font-size: 1.2rem;
+    opacity: 0.5;
+  }
+
+  .step-icon {
+    width: 56px;
+    height: 56px;
+    border: 1.5px solid var(--emas);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.25rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    color: var(--emas);
+  }
+
+  .step h3 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--hijau);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.03em;
+  }
+
+  .step p {
+    font-size: 0.82rem;
+    color: var(--teks-sederhana);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* JAMINAN SYARIAH */
+  .syariah {
+    background: var(--hijau);
+    padding: 6rem 2rem;
+  }
+
+  .syariah .container {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .syariah h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 500;
+    color: var(--krim);
+    margin-bottom: 3.5rem;
+  }
+
   .syariah h2 em { color: var(--emas); font-style: italic; }
-  .jaminan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; text-align: left; }
-  .jaminan-item { border-top: 1px solid rgba(136,136,136,0.25); padding-top: 1.25rem; }
-  .jaminan-item .check { color: var(--emas); font-size: 1rem; margin-bottom: 0.5rem; }
-  .jaminan-item h4 { font-size: 0.9rem; font-weight: 500; color: var(--krim); margin-bottom: 0.35rem; }
-  .jaminan-item p { font-size: 0.8rem; color: rgba(245,240,232,0.5); line-height: 1.65; font-weight: 300; }
 
-  .cta-section { background: var(--krim); padding: 7rem 2rem; text-align: center; }
-  .cta-section h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 6vw, 4.5rem); font-weight: 500; color: var(--hijau); line-height: 1.2; margin-bottom: 1.25rem; }
+  .jaminan-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    text-align: left;
+  }
+
+  .jaminan-item {
+    border-top: 1px solid rgba(136,136,136,0.25);
+    padding-top: 1.25rem;
+  }
+
+  .jaminan-item .check {
+    color: var(--emas);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .jaminan-item h4 {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--krim);
+    margin-bottom: 0.35rem;
+  }
+
+  .jaminan-item p {
+    font-size: 0.8rem;
+    color: rgba(245,240,232,0.5);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  /* CTA */
+  .cta-section {
+    background: var(--krim);
+    padding: 7rem 2rem;
+    text-align: center;
+  }
+
+  .cta-section h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 6vw, 4.5rem);
+    font-weight: 500;
+    color: var(--hijau);
+    line-height: 1.2;
+    margin-bottom: 1.25rem;
+  }
+
   .cta-section h2 em { color: var(--emas); font-style: italic; }
-  .cta-section > p { font-size: 1rem; color: var(--teks-sederhana); font-weight: 300; max-width: 500px; margin: 0 auto 2.5rem; line-height: 1.7; }
-  .coming-soon-badge { display: inline-block; border: 1px solid var(--emas); color: var(--emas); font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.5rem 1.25rem; margin-bottom: 2rem; font-weight: 500; }
 
-  .form-wrapper { max-width: 480px; margin: 0 auto; background: var(--putih); border: 1px solid var(--krim-gelap); padding: 2.5rem; }
-  .form-header-note { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--emas); font-weight: 500; text-align: center; margin-bottom: 1.75rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--krim-gelap); }
-  .form-label { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--teks-sederhana); display: block; margin-bottom: 0.5rem; font-weight: 500; }
-  .form-select, .form-input { width: 100%; padding: 0.85rem 1rem; border: 1px solid var(--krim-gelap); background: var(--krim); font-family: 'Jost', sans-serif; font-size: 0.9rem; color: var(--teks-gelap); margin-bottom: 1.25rem; appearance: none; outline: none; transition: border-color 0.3s; }
-  .form-select:focus, .form-input:focus { border-color: var(--emas); }
-  .form-select.error, .form-input.error { border-color: #cc4444; }
-  .form-submit { width: 100%; background: var(--hijau); color: var(--emas); padding: 1rem; font-family: 'Jost', sans-serif; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 600; border: none; cursor: pointer; transition: all 0.3s; margin-top: 0.5rem; }
-  .form-submit:hover:not(:disabled) { background: var(--hijau-muda); transform: translateY(-1px); }
-  .form-submit:disabled { cursor: not-allowed; opacity: 0.75; }
-  .form-note { font-size: 0.72rem; color: rgba(74,74,66,0.5); text-align: center; margin-top: 1rem; line-height: 1.6; }
+  .cta-section p {
+    font-size: 1rem;
+    color: var(--teks-sederhana);
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2.5rem;
+  }
 
-  .form-msg { display: none; padding: 0.9rem 1rem; font-size: 0.82rem; margin-bottom: 1.25rem; text-align: center; line-height: 1.5; }
-  .form-msg.success { display: block; background: #f0faf0; border: 1px solid #88bb88; color: #336633; }
-  .form-msg.error   { display: block; background: #faf0f0; border: 1px solid #bb8888; color: #663333; }
+  .coming-soon-badge {
+    display: inline-block;
+    border: 1px solid var(--emas);
+    color: var(--emas);
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.5rem 1.25rem;
+    margin-bottom: 2rem;
+    font-weight: 500;
+  }
 
-  .spinner { display: inline-block; width: 13px; height: 13px; border: 2px solid rgba(136,136,136,0.3); border-top-color: var(--emas); border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 8px; }
-  @keyframes spin { to { transform: rotate(360deg); } }
+  .form-header-note {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--emas);
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 1.75rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--krim-gelap);
+  }
 
-  footer { background: var(--hijau); padding: 2.5rem 2rem; text-align: center; }
-  footer p { font-size: 0.75rem; color: rgba(245,240,232,0.35); letter-spacing: 0.08em; line-height: 1.8; }
-  footer a { color: rgba(201,168,76,0.5); text-decoration: none; }
+  /* FORM AREA */
+  .form-wrapper {
+    max-width: 480px;
+    margin: 0 auto;
+    background: var(--putih);
+    border: 1px solid var(--krim-gelap);
+    padding: 2.5rem;
+  }
 
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .form-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--teks-sederhana);
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
 
+  .form-select, .form-input {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--krim-gelap);
+    background: var(--krim);
+    font-family: 'Jost', sans-serif;
+    font-size: 0.9rem;
+    color: var(--teks-gelap);
+    margin-bottom: 1.25rem;
+    appearance: none;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+
+  .form-select:focus, .form-input:focus {
+    border-color: var(--emas);
+  }
+
+  .form-submit {
+    width: 100%;
+    background: var(--hijau);
+    color: var(--emas);
+    padding: 1rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 0.5rem;
+  }
+
+  .form-submit:hover {
+    background: var(--hijau-muda);
+    transform: translateY(-1px);
+  }
+
+  .form-note {
+    font-size: 0.72rem;
+    color: rgba(74,74,66,0.5);
+    text-align: center;
+    margin-top: 1rem;
+    line-height: 1.6;
+  }
+
+  .form-status {
+    display: none;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    text-align: center;
+    margin-top: 1rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--krim-gelap);
+    background: var(--krim);
+    color: var(--teks-sederhana);
+  }
+
+  .form-status.success {
+    display: block;
+    border-color: rgba(17,17,17,0.2);
+    color: var(--hijau);
+  }
+
+  .form-status.error {
+    display: block;
+    border-color: rgba(170,40,40,0.35);
+    color: #8a1f1f;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--hijau);
+    padding: 2.5rem 2rem;
+    text-align: center;
+  }
+
+  footer p {
+    font-size: 0.75rem;
+    color: rgba(245,240,232,0.35);
+    letter-spacing: 0.08em;
+    line-height: 1.8;
+  }
+
+  footer a {
+    color: rgba(201,168,76,0.5);
+    text-decoration: none;
+  }
+
+  /* STATS BAR */
+  .stats-bar {
+    background: var(--putih);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--hijau);
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(26,48,40,0.65);
+    font-weight: 500;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
   @media (max-width: 640px) {
     nav { padding: 1rem 1.25rem; }
     .step:not(:last-child)::after { display: none; }
@@ -169,42 +724,62 @@
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
   <div class="nav-logo">Poligami<span>.my</span></div>
-  <a href="#daftar" class="nav-cta">Pra-Daftar Sekarang</a>
 </nav>
 
+<!-- HERO -->
 <section class="hero">
   <p class="hero-bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
   <p class="hero-tagline-kecil">Platform Poligami Pertama Malaysia</p>
   <h1>Buat Dengan <em>Betul.</em></h1>
-  <p class="hero-sub">Bukan haram. Bukan sembunyi. Bukan skandal.<br>Poligami yang benar — terbuka, terhormat, mengikut syariat.</p>
+  <p class="hero-sub">
+    Bukan haram. Bukan sembunyi. Bukan skandal.<br>
+    Poligami yang benar — terbuka, terhormat, mengikut syariat.
+  </p>
   <div class="hero-btns">
-    <a href="#daftar" class="btn-utama">Daftar Percuma</a>
-    <a href="#siapa" class="btn-sekunder">Kenali Platform Ini</a>
+    <a href="#daftar" class="btn-utama">
+      <span class="btn-caption">Pra Pelancaran</span>
+      Daftar Percuma
+    </a>
   </div>
   <div class="hero-divider"></div>
 </section>
 
+<!-- STATS BAR -->
 <div class="stats-bar">
-  <div class="stat-item"><span class="stat-num">100%</span><span class="stat-label">Shariah Compliant</span></div>
-  <div class="stat-item"><span class="stat-num">11</span><span class="stat-label">Jenis Pengguna Kami Khidmati</span></div>
-  <div class="stat-item"><span class="stat-num">Percuma</span><span class="stat-label">Untuk Mendaftar</span></div>
-  <div class="stat-item"><span class="stat-num">Serius</span><span class="stat-label">Bukan Platform Suka-Suka</span></div>
+  <div class="stat-item">
+    <span class="stat-num">Percuma</span>
+    <span class="stat-label">Untuk Mendaftar</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">Serius</span>
+    <span class="stat-label">Bukan Platform Suka-Suka</span>
+  </div>
 </div>
 
+<!-- MASALAH -->
 <section class="masalah">
   <p class="section-label reveal">Realiti Yang Kita Perlu Akui</p>
   <h2 class="reveal">Ramai yang nak — tapi ramai yang buat dengan cara yang salah.</h2>
-  <p class="reveal">Poligami adalah <strong>hak yang Allah benarkan.</strong> Tapi tanpa saluran yang betul, ia bertukar menjadi skandal, penipuan, dan dosa. Platform ini wujud untuk <strong>menutup jurang antara niat yang baik dengan cara yang benar.</strong></p>
+  <p class="reveal">
+    Poligami adalah <strong>hak yang Allah benarkan.</strong> Tapi tanpa saluran yang betul,
+    ia bertukar menjadi skandal, penipuan, dan dosa. Platform ini wujud untuk
+    <strong>menutup jurang antara niat yang baik dengan cara yang benar.</strong>
+  </p>
 </section>
 
+<!-- AYAT -->
 <section class="ayat-section">
   <p class="ayat-arab reveal">"فَانكِحُوا مَا طَابَ لَكُم مِّنَ النِّسَاءِ"</p>
-  <p class="ayat-terjemah reveal">"Maka kahwinilah perempuan-perempuan yang kamu sukai, dua, tiga atau empat."</p>
+  <p class="ayat-terjemah reveal">
+    "Maka kahwinilah perempuan-perempuan yang kamu sukai, dua, tiga atau empat."
+  </p>
   <p class="ayat-rujukan reveal">Surah An-Nisa', Ayat 3</p>
 </section>
 
+<!-- SIAPA ANDA -->
 <section class="siapa" id="siapa">
   <div class="container">
     <div class="siapa-header reveal">
@@ -213,57 +788,152 @@
       <p>Kami faham situasi setiap orang berbeza. Tiada penghakiman di sini.</p>
     </div>
     <div class="segments-grid">
-      <div class="segment-card reveal"><div class="seg-num">01</div><div class="seg-title">Lelaki yang Hampir Terpesong</div><div class="seg-desc">Keinginan ada, tapi tiada saluran halal. Sebelum jadi haram — daftar di sini.</div></div>
-      <div class="segment-card reveal"><div class="seg-num">02</div><div class="seg-title">Isteri Pertama yang Menyokong</div><div class="seg-desc">Ikhlas beri izin, tapi tak tahu nak cari calon dari mana. Kami ada platform untuk anda turut serta.</div></div>
-      <div class="segment-card reveal"><div class="seg-num">03</div><div class="seg-title">Lelaki yang Mahu Tapi Takut</div><div class="seg-desc">Takut proses mahkamah, takut reaksi keluarga, takut dihakimi masyarakat. Kami ada panduan untuk anda.</div></div>
-      <div class="segment-card reveal"><div class="seg-num">04</div><div class="seg-title">Wanita yang Sanggup Jadi Madu</div><div class="seg-desc">Keputusan yang berani dan matang. Anda layak dapat platform yang hormat pilihan anda.</div></div>
-      <div class="segment-card reveal"><div class="seg-num">05</div><div class="seg-title">Janda & Divorcee yang Open</div><div class="seg-desc">Pengalaman hidup mengajar banyak. Anda faham erti komitmen, dan anda layak bahagia semula.</div></div>
-      <div class="segment-card reveal"><div class="seg-num">06</div><div class="seg-title">Wanita Karier yang Mahukan Autonomi</div><div class="seg-desc">Bukan semua wanita mahu suami sepenuh masa. Ada yang prefer arrangement yang lebih fleksibel — halal.</div></div>
-      <div class="segment-card reveal"><div class="seg-num">07</div><div class="seg-title">Situasi Khas Rumah Tangga</div><div class="seg-desc">Isteri sakit, halangan tertentu — situasi yang Mahkamah Syariah iktiraf. Kami faham dan tidak menghakimi.</div></div>
-      <div class="segment-card reveal"><div class="seg-num">08</div><div class="seg-title">Mualaf & Muslim yang Baru Faham</div><div class="seg-desc">Ingin amalkan syariat dengan cara yang betul dari awal. Platform ini direka untuk anda belajar sambil berjalan.</div></div>
-      <div class="segment-card reveal"><div class="seg-num">09</div><div class="seg-title">Golongan Profesional & Berada</div><div class="seg-desc">Mampu dari segi nafkah, tapi risau reputasi. Platform kami discrete, kredibel, dan serius.</div></div>
-      <div class="segment-card reveal"><div class="seg-num">10</div><div class="seg-title">Pasangan yang Plan dari Awal</div><div class="seg-desc">Ada lelaki yang sejak mula jujur tentang niat berpoligami. Calon yang sama visi menanti di sini.</div></div>
-      <div class="segment-card reveal"><div class="seg-num">11</div><div class="seg-title">Wali & Keluarga yang Membantu</div><div class="seg-desc">Dalam budaya kita, keluarga adalah asas. Kami bina platform yang family-friendly — wali dilibatkan dari awal.</div></div>
+
+      <div class="segment-card reveal">
+        <div class="seg-num">01</div>
+        <div class="seg-title">Lelaki yang Hampir Terpesong</div>
+        <div class="seg-desc">Keinginan ada, tapi tiada saluran halal. Sebelum jadi haram — daftar di sini.</div>
+      </div>
+
+      <div class="segment-card reveal">
+        <div class="seg-num">02</div>
+        <div class="seg-title">Isteri Pertama yang Menyokong</div>
+        <div class="seg-desc">Ikhlas beri izin, tapi tak tahu nak cari calon dari mana. Kami ada platform untuk anda turut serta.</div>
+      </div>
+
+      <div class="segment-card reveal">
+        <div class="seg-num">03</div>
+        <div class="seg-title">Lelaki yang Mahu Tapi Takut</div>
+        <div class="seg-desc">Takut proses mahkamah, takut reaksi keluarga, takut dihakimi masyarakat. Kami ada panduan untuk anda.</div>
+      </div>
+
+      <div class="segment-card reveal">
+        <div class="seg-num">04</div>
+        <div class="seg-title">Wanita yang Sanggup Jadi Madu</div>
+        <div class="seg-desc">Keputusan yang berani dan matang. Anda layak dapat platform yang hormat pilihan anda.</div>
+      </div>
+
+      <div class="segment-card reveal">
+        <div class="seg-num">05</div>
+        <div class="seg-title">Janda & Divorcee yang Open</div>
+        <div class="seg-desc">Pengalaman hidup mengajar banyak. Anda faham erti komitmen, dan anda layak bahagia semula.</div>
+      </div>
+
+      <div class="segment-card reveal">
+        <div class="seg-num">06</div>
+        <div class="seg-title">Wanita Karier yang Mahukan Autonomi</div>
+        <div class="seg-desc">Bukan semua wanita mahu suami sepenuh masa. Ada yang prefer arrangement yang lebih fleksibel — halal.</div>
+      </div>
+
+      <div class="segment-card reveal">
+        <div class="seg-num">07</div>
+        <div class="seg-title">Situasi Khas Rumah Tangga</div>
+        <div class="seg-desc">Isteri sakit, halangan tertentu — situasi yang Mahkamah Syariah iktiraf. Kami faham dan tidak menghakimi.</div>
+      </div>
+
+      <div class="segment-card reveal">
+        <div class="seg-num">08</div>
+        <div class="seg-title">Mualaf & Muslim yang Baru Faham</div>
+        <div class="seg-desc">Ingin amalkan syariat dengan cara yang betul dari awal. Platform ini direka untuk anda belajar sambil berjalan.</div>
+      </div>
+
+      <div class="segment-card reveal">
+        <div class="seg-num">09</div>
+        <div class="seg-title">Golongan Profesional & Berada</div>
+        <div class="seg-desc">Mampu dari segi nafkah, tapi risau reputasi. Platform kami discrete, kredibel, dan serius.</div>
+      </div>
+
+      <div class="segment-card reveal">
+        <div class="seg-num">10</div>
+        <div class="seg-title">Pasangan yang Plan dari Awal</div>
+        <div class="seg-desc">Ada lelaki yang sejak mula jujur tentang niat berpoligami. Calon yang sama visi menanti di sini.</div>
+      </div>
+
+      <div class="segment-card reveal">
+        <div class="seg-num">11</div>
+        <div class="seg-title">Wali & Keluarga yang Membantu</div>
+        <div class="seg-desc">Dalam budaya kita, keluarga adalah asas. Kami bina platform yang family-friendly — wali dilibatkan dari awal.</div>
+      </div>
+
     </div>
   </div>
 </section>
 
+<!-- CARA KERJA -->
 <section class="cara">
   <p class="section-label reveal">Mudah & Terhormat</p>
   <h2 class="reveal">Cara Ia Berfungsi</h2>
   <div class="steps">
-    <div class="step reveal"><div class="step-icon">①</div><h3>Daftar & Isytihar Niat</h3><p>Lengkapkan profil anda dengan jujur. Nyatakan niat perkahwinan anda — ini bukan platform hiburan.</p></div>
-    <div class="step reveal"><div class="step-icon">②</div><h3>Padanan Terurus</h3><p>Kami padankan berdasarkan kriteria, lokasi, dan kesediaan. Tiada swipe. Tiada algoritma kosong.</p></div>
-    <div class="step reveal"><div class="step-icon">③</div><h3>Proses Dengan Betul</h3><p>Dari perkenalan hingga ke mahkamah — kami sediakan panduan prosedur Mahkamah Syariah langkah demi langkah.</p></div>
-  </div>
-</section>
-
-<section class="syariah">
-  <div class="container">
-    <h2 class="reveal">Jaminan <em>Syariah</em> Kami</h2>
-    <div class="jaminan-grid">
-      <div class="jaminan-item reveal"><div class="check">✦</div><h4>Wali Dilibatkan</h4><p>Notifikasi kepada wali adalah sebahagian daripada proses. Tiada yang tersembunyi dari keluarga.</p></div>
-      <div class="jaminan-item reveal"><div class="check">✦</div><h4>Mahram Privacy Control</h4><p>Wanita boleh tetapkan siapa yang boleh lihat profil mereka. Keselamatan dan maruah diutamakan.</p></div>
-      <div class="jaminan-item reveal"><div class="check">✦</div><h4>Deklarasi Niat Perkahwinan</h4><p>Semua pengguna wajib isytihar niat serius. Tiada ruang untuk yang bermain-main.</p></div>
-      <div class="jaminan-item reveal"><div class="check">✦</div><h4>Panduan Mahkamah Syariah</h4><p>Prosedur kebenaran berpoligami disediakan — dari permohonan hingga keputusan.</p></div>
-      <div class="jaminan-item reveal"><div class="check">✦</div><h4>Consent Isteri Pertama</h4><p>Isteri pertama boleh dilibatkan dalam proses carian — satu pendekatan yang unik dan berani.</p></div>
-      <div class="jaminan-item reveal"><div class="check">✦</div><h4>Tiada Ruang Maksiat</h4><p>Platform ini direka untuk menutup pintu kepada perhubungan haram, bukan membukanya.</p></div>
+    <div class="step reveal">
+      <div class="step-icon">①</div>
+      <h3>Daftar & Isytihar Niat</h3>
+      <p>Lengkapkan profil anda dengan jujur. Nyatakan niat perkahwinan anda — ini bukan platform hiburan.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-icon">②</div>
+      <h3>Padanan Terurus</h3>
+      <p>Kami padankan berdasarkan kriteria, lokasi, dan kesediaan. Tiada swipe. Tiada algoritma kosong.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-icon">③</div>
+      <h3>Proses Dengan Betul</h3>
+      <p>Dari perkenalan hingga ke mahkamah — kami sediakan panduan prosedur Mahkamah Syariah langkah demi langkah.</p>
     </div>
   </div>
 </section>
 
+<!-- JAMINAN SYARIAH -->
+<section class="syariah">
+  <div class="container">
+    <h2 class="reveal">Jaminan <em>Syariah</em> Kami</h2>
+    <div class="jaminan-grid">
+      <div class="jaminan-item reveal">
+        <div class="check">✦</div>
+        <h4>Wali Dilibatkan</h4>
+        <p>Notifikasi kepada wali adalah sebahagian daripada proses. Tiada yang tersembunyi dari keluarga.</p>
+      </div>
+      <div class="jaminan-item reveal">
+        <div class="check">✦</div>
+        <h4>Mahram Privacy Control</h4>
+        <p>Wanita boleh tetapkan siapa yang boleh lihat profil mereka. Keselamatan dan maruah diutamakan.</p>
+      </div>
+      <div class="jaminan-item reveal">
+        <div class="check">✦</div>
+        <h4>Deklarasi Niat Perkahwinan</h4>
+        <p>Semua pengguna wajib isytihar niat serius. Tiada ruang untuk yang bermain-main.</p>
+      </div>
+      <div class="jaminan-item reveal">
+        <div class="check">✦</div>
+        <h4>Panduan Mahkamah Syariah</h4>
+        <p>Prosedur kebenaran berpoligami disediakan — dari permohonan hingga keputusan.</p>
+      </div>
+      <div class="jaminan-item reveal">
+        <div class="check">✦</div>
+        <h4>Consent Isteri Pertama</h4>
+        <p>Isteri pertama boleh dilibatkan dalam proses carian — satu pendekatan yang unik dan berani.</p>
+      </div>
+      <div class="jaminan-item reveal">
+        <div class="check">✦</div>
+        <h4>Tiada Ruang Maksiat</h4>
+        <p>Platform ini direka untuk menutup pintu kepada perhubungan haram, bukan membukanya.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA DAFTAR -->
 <section class="cta-section" id="daftar">
   <p class="section-label reveal">Akan Datang</p>
   <h2 class="reveal">Platform sedang <em>dibina.</em><br>Anda boleh daftar <em>sekarang.</em></h2>
   <p class="reveal">Poligami.my akan dilancarkan tidak lama lagi. Daftar hari ini — anda antara yang pertama kami maklumkan apabila platform ini sedia.</p>
+
   <div class="coming-soon-badge reveal">🕐 &nbsp;Pelancaran Tidak Lama Lagi</div>
 
   <div class="form-wrapper reveal">
     <div class="form-header-note">Pra-Pendaftaran — Percuma & Tanpa Komitmen</div>
-    <div id="form-msg" class="form-msg"></div>
-
-    <label class="form-label">Saya mendaftar sebagai</label>
-    <select id="f-kategori" class="form-select">
+    <form id="registration-form">
+      <label class="form-label" for="kategori">Saya mendaftar sebagai</label>
+      <select class="form-select" id="kategori" name="kategori" required>
       <option value="">— Pilih kategori anda —</option>
       <option>Lelaki yang ingin berpoligami</option>
       <option>Isteri pertama yang menyokong</option>
@@ -273,14 +943,17 @@
       <option>Lain-lain</option>
     </select>
 
-    <label class="form-label">Nama penuh</label>
-    <input id="f-nama" type="text" class="form-input" placeholder="Nama anda">
+      <label class="form-label" for="nama">Nama penuh</label>
+      <input type="text" class="form-input" id="nama" name="nama" placeholder="Nama anda" required>
 
-    <label class="form-label">Nombor WhatsApp</label>
-    <input id="f-wa" type="tel" class="form-input" placeholder="+60 12-345 6789">
+      <label class="form-label" for="email">Email</label>
+      <input type="email" class="form-input" id="email" name="email" placeholder="email@anda.com" required>
 
-    <label class="form-label">Negeri</label>
-    <select id="f-negeri" class="form-select">
+      <label class="form-label" for="telefon">Nombor WhatsApp</label>
+      <input type="tel" class="form-input" id="telefon" name="telefon" placeholder="+60 12-345 6789" required>
+
+      <label class="form-label" for="negeri">Negeri</label>
+      <select class="form-select" id="negeri" name="negeri" required>
       <option value="">— Pilih negeri —</option>
       <option>Kuala Lumpur / Selangor</option>
       <option>Johor</option>
@@ -296,14 +969,17 @@
       <option>Sarawak</option>
     </select>
 
-    <button id="btn-submit" class="form-submit">Daftar Pra-Pendaftaran — Percuma</button>
+      <button type="submit" class="form-submit">Daftar Pra-Pendaftaran — Percuma</button>
+      <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
+    </form>
     <p class="form-note">Kami akan hubungi anda melalui WhatsApp apabila Poligami.my sedia untuk digunakan.<br>Maklumat anda adalah sulit dan tidak dikongsi kepada mana-mana pihak ketiga.</p>
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer>
   <p>
-    © 2025 Poligami.my — Hak Cipta Terpelihara<br>
+    © 2026 Poligami.my — Hak Cipta Terpelihara<br>
     <a href="#">Terma & Syarat</a> · <a href="#">Dasar Privasi</a> · <a href="#">Hubungi Kami</a><br><br>
     Platform ini adalah untuk Muslim Malaysia sahaja. Semua aktiviti tertakluk kepada undang-undang keluarga Islam Malaysia.
   </p>
@@ -312,88 +988,71 @@
 <script>
   // Scroll reveal
   const reveals = document.querySelectorAll('.reveal');
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('visible'), (i % 4) * 80);
-        io.unobserve(e.target);
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, (i % 4) * 80);
+        observer.unobserve(entry.target);
       }
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-  reveals.forEach(el => io.observe(el));
 
-  // Form elements
-  const btn       = document.getElementById('btn-submit');
-  const msgEl     = document.getElementById('form-msg');
-  const fKategori = document.getElementById('f-kategori');
-  const fNama     = document.getElementById('f-nama');
-  const fWa       = document.getElementById('f-wa');
-  const fNegeri   = document.getElementById('f-negeri');
-  const fields    = [fKategori, fNama, fWa, fNegeri];
+  reveals.forEach(el => observer.observe(el));
 
-  // Clear error highlight on edit
-  fields.forEach(el => {
-    el.addEventListener('change', () => el.classList.remove('error'));
-    el.addEventListener('input',  () => el.classList.remove('error'));
-  });
+  // Replace this URL with your deployed Google Apps Script Web App URL.
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx2GyTSZA-ArlnpzX7Diw3cuVDK-JDW_ukioPIW6_rABle4NRUZD4FjakuTBbheS7N9Sw/exec';
 
-  function showMsg(type, text) {
-    msgEl.className = `form-msg ${type}`;
-    msgEl.textContent = text;
-    msgEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  const registrationForm = document.getElementById('registration-form');
+  const formStatus = document.getElementById('form-status');
+  const submitButton = registrationForm.querySelector('.form-submit');
+
+  function showFormStatus(message, type) {
+    formStatus.textContent = message;
+    formStatus.className = `form-status ${type}`;
   }
 
-  function setLoading(on) {
-    btn.disabled = on;
-    btn.innerHTML = on
-      ? '<span class="spinner"></span>Menghantar...'
-      : 'Daftar Pra-Pendaftaran — Percuma';
-  }
+  registrationForm.addEventListener('submit', async function(event) {
+    event.preventDefault();
 
-  async function sendEmail(data) {
-  const res = await fetch('https://poligami-api.onrender.com/api/submit', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  });
+    if (GOOGLE_SCRIPT_URL === 'PASTE_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
+      showFormStatus('Borang belum disambungkan ke Google Sheet. Sila masukkan Web App URL Google Apps Script dahulu.', 'error');
+      return;
+    }
 
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.error || `HTTP ${res.status}`);
-  }
-}
+    submitButton.disabled = true;
+    submitButton.textContent = 'Sedang dihantar...';
+    showFormStatus('Sedang menghantar pendaftaran anda...', 'success');
 
-
-  btn.addEventListener('click', async () => {
-    // Validate all fields
-    let valid = true;
-    fields.forEach(el => {
-      if (!el.value.trim()) { el.classList.add('error'); valid = false; }
-    });
-    if (!valid) { showMsg('error', 'Sila lengkapkan semua maklumat sebelum mendaftar.'); return; }
-
-    setLoading(true);
-    msgEl.className = 'form-msg';
+    const formData = new FormData(registrationForm);
+    const payload = {
+      kategori: formData.get('kategori'),
+      nama: formData.get('nama'),
+      email: formData.get('email'),
+      telefon: formData.get('telefon'),
+      negeri: formData.get('negeri')
+    };
 
     try {
-      await sendEmail({
-        kategori: fKategori.value,
-        nama:     fNama.value.trim(),
-        whatsapp: fWa.value.trim(),
-        negeri:   fNegeri.value
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
       });
 
-      showMsg('success', '✓ Terima kasih! Kami akan menghubungi anda melalui WhatsApp apabila Poligami.my sedia untuk digunakan.');
-      btn.innerHTML = '✓ Berjaya Didaftarkan';
-      btn.style.background = '#2d6a2d';
-      btn.style.color = '#fff';
-      btn.disabled = true;
-      fields.forEach(el => { el.value = ''; el.classList.remove('error'); });
+      registrationForm.reset();
+      showFormStatus('Registration received. Terima kasih, maklumat anda telah dihantar.', 'success');
 
-    } catch (err) {
-      console.error('Brevo error:', err);
-      showMsg('error', 'Ralat berlaku semasa menghantar. Sila cuba sebentar lagi atau hubungi kami secara terus.');
-      setLoading(false);
+      // Untuk redirect ke WhatsApp selepas submit, buang // pada dua baris bawah.
+      // const whatsappUrl = 'https://wa.me/60123456789?text=Saya%20sudah%20daftar%20pra-pendaftaran%20Poligami.my';
+      // window.location.href = whatsappUrl;
+    } catch (error) {
+      showFormStatus('Maaf, pendaftaran tidak berjaya dihantar. Sila cuba sekali lagi.', 'error');
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = 'Daftar Pra-Pendaftaran — Percuma';
     }
   });
 </script>
